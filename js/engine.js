@@ -93,6 +93,18 @@ var Engine = (function(global) {
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
+
+            // if out of bounds, destroy and create a new
+            if (enemy.isInBoundaries() === false) {
+                var index = allEnemies.indexOf(enemy);
+                allEnemies.splice(index, 1);
+                enemyCount--;
+            }
+
+            if (enemyCount < enemyCountMax) {
+                allEnemies.push(new Enemy());
+                enemyCount++;
+            }
         });
         player.update();
     }
@@ -153,6 +165,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        scoreBoard.render();
     }
 
     /* This function does nothing but it could have been a good place to
