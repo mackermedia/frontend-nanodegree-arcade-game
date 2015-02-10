@@ -91,21 +91,27 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
+        // loop through all of the enemy objects
         allEnemies.forEach(function(enemy) {
+            // update the enemy's current position
             enemy.update(dt);
 
-            // if out of bounds, destroy and create a new
+            // determine if the enemy is out of bounds
             if (enemy.isInBoundaries() === false) {
+                // if out of bounds, destroy and create a new
                 var index = allEnemies.indexOf(enemy);
                 allEnemies.splice(index, 1);
                 enemyCount--;
             }
 
+            // if we've destroyed an enemy and now have less than the max, create a new
             if (enemyCount < enemyCountMax) {
                 allEnemies.push(new Enemy());
                 enemyCount++;
             }
         });
+
+        // update the player's current position
         player.update();
     }
 
@@ -164,6 +170,7 @@ var Engine = (function(global) {
             enemy.render();
         });
 
+        // render the player and scoreboard
         player.render();
         scoreBoard.render();
     }
